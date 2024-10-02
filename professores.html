@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro e Verificação de Professores</title>
+   
+</head>
+<body>
+    <h1 class="title">Banco de Talentos</h1>    
+    <style>
+      /*  
+        body {
+           background-image: url('https://bumerangtravel.com/wp-content/uploads/2024/08/185-aprenda-a-usar-planilhas-como-um-profissional-confira-nossas-dicas.jpg');
+           background-size: cover;
+           background-position: center;
+           background-repeat: no-repeat;          
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           height: 100vh;
+           margin: 0;
+       } 
+       
+       h1 {
+           font-size: 3em;
+           margin-bottom: 20px;
+           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+       }
+
+       a {
+           text-decoration: none;
+       }
+
+       button {
+           padding: 10px 20px;
+           border: none;
+           border-radius: 5px;
+           background-color: #28a745;
+           color: #fff;
+           font-size: 1em;
+           cursor: pointer;
+           transition: background-color 0.3s;
+           margin: 10px 0;
+       }
+
+       button:hover {
+           background-color: #218838;
+       }
+
+       table {
+           background: rgba(0, 0, 0, 0.7);
+           border-collapse: collapse;
+           width: 80%;
+           margin-top: 20px;
+       }
+
+       th, td {
+           padding: 10px;
+           border: 1px solid #fff;
+           text-align: left;
+       }
+
+       th {
+           background-color: #007bff;
+       }
+
+       form {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+       }
+
+       input {
+           margin: 5px 0;
+           padding: 10px;
+           border-radius: 5px;
+           border: 1px solid #ccc;
+           width: 80%;
+       }
+*/
+   </style>
+
+    <form id="formTalentos">
+        <div class="form-group">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder=" " required>            
+
+            <label for="idade">Idade</label>
+            <input type="text" id="idade" name="idade" placeholder=" " required>
+            
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" placeholder=" " oninput="mascaraCPF(this)" required>
+            
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone" placeholder=" " oninput="mascaraTelefone(this)" required>
+            
+            <label for="endereco">Endereço Completo</label>
+            <textarea id="endereco" name="endereco" placeholder="Rua nome, número 99, bairro talento, Cidade/UF." required></textarea>
+            
+            <label for="experiencia">Última experiência</label>
+            <textarea id="experiencia" name="experiencia" placeholder=" " required></textarea>
+            
+            <label for="objetivos_carreira">Objetivos de carreira</label>
+            <textarea id="objetivos_carreira" name="objetivos_carreira" placeholder=" " required></textarea>
+            
+            <label for="habilidades">Habilidades</label>
+            <textarea id="habilidades" name="habilidades" placeholder=" " required></textarea>
+            
+            <label for="qualidades">Principais qualidades</label>
+            <textarea id="qualidades" name="qualidades" placeholder=" " required></textarea>
+            
+            <label for="definicao">Como você se definiria em uma palavra?</label>
+            <input type="text" id="definicao" name="definicao" placeholder=" " required>
+            
+        </div>
+
+        <button type="submit" id="btnCadastrar">Cadastrar</button>
+
+    </form>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('formProfessor');
+            const tabela = document.getElementById('tabelaProfessores').getElementsByTagName('tbody')[0];
+            const btnCadastrar = document.getElementById('btnCadastrar');
+            let editIndex = -1;
+
+            const salvarDados = () => {
+                const dados = [];
+                for (let i = 0; i < tabela.rows.length; i++) {
+                    const row = tabela.rows[i];
+                    const professor = {
+                        nome: row.cells[0].textContent,
+                        cpf: row.cells[1].textContent,
+                        salario: row.cells[2].textContent,
+                        cargo: row.cells[3].textContent,
+                        cep: row.cells[4].textContent,
+                        rua: row.cells[5].textContent,
+                        numero: row.cells[6].textContent,
+                        bairro: row.cells[7].textContent,
+                        cidade: row.cells[8].textContent,
+                        estado: row.cells[9].textContent
+                    };
+                    dados.push(professor);
+                }
+                localStorage.setItem('professores', JSON.stringify(dados));
+            };
+
+            const carregarDados = () => {
+                const dados = JSON.parse(localStorage.getItem('professores')) || [];
+                dados.forEach(professor => {
+                    const novaLinha = tabela.insertRow();
+                    novaLinha.insertCell(0).textContent = professor.nome;
+                    novaLinha.insertCell(1).textContent = professor.cpf;
+                    novaLinha.insertCell(2).textContent = professor.salario;
+                    novaLinha.insertCell(3).textContent = professor.cargo;
+                    novaLinha.insertCell(4).textContent = professor.cep;
+                    novaLinha.insertCell(5).textContent = professor.rua;
+                    novaLinha.insertCell(6).textContent = professor.numero;
+                    novaLinha.insertCell(7).textContent = professor.bairro;
+                    novaLinha.insertCell(8).textContent = professor.cidade;
+                    novaLinha.insertCell(9).textContent = professor.estado;
+                    const acoesCell = novaLinha.insertCell(10);
+                    acoesCell.innerHTML = '<button class="btnEditar">Editar</button> <button class="btnExcluir">Excluir</button>';
+                });
+            };
+
+            btnCadastrar.addEventListener('click', () => {
+                const nome = document.getElementById('nome').value;
+                const cpf = document.getElementById('cpf').value;
+                const salario = document.getElementById('salario').value;
+                const cargo = document.getElementById('cargo').value;
+                const cep = document.getElementById('cep').value;
+                const rua = document.getElementById('rua').value;
+                const numero = document.getElementById('numero').value;
+                const bairro = document.getElementById('bairro').value;
+                const cidade = document.getElementById('cidade').value;
+                const estado = document.getElementById('estado').value;
+
+                if (editIndex === -1) {
+                    const novaLinha = tabela.insertRow();
+                    novaLinha.insertCell(0).textContent = nome;
+                    novaLinha.insertCell(1).textContent = cpf;
+                    novaLinha.insertCell(2).textContent = salario;
+                    novaLinha.insertCell(3).textContent = cargo;
+                    novaLinha.insertCell(4).textContent = cep;
+                    novaLinha.insertCell(5).textContent = rua;
+                    novaLinha.insertCell(6).textContent = numero;
+                    novaLinha.insertCell(7).textContent = bairro;
+                    novaLinha.insertCell(8).textContent = cidade;
+                    novaLinha.insertCell(9).textContent = estado;
+                    const acoesCell = novaLinha.insertCell(10);
+                    acoesCell.innerHTML = '<button class="btnEditar">Editar</button> <button class="btnExcluir">Excluir</button>';
+                } else {
+                    const linha = tabela.rows[editIndex];
+                    linha.cells[0].textContent = nome;
+                    linha.cells[1].textContent = cpf;
+                    linha.cells[2].textContent = salario;
+                    linha.cells[3].textContent = cargo;
+                    linha.cells[4].textContent = cep;
+                    linha.cells[5].textContent = rua;
+                    linha.cells[6].textContent = numero;
+                    linha.cells[7].textContent = bairro;
+                    linha.cells[8].textContent = cidade;
+                    linha.cells[9].textContent = estado;
+                    editIndex = -1;
+                }
+
+                form.reset();
+                salvarDados();
+            });
+
+            tabela.addEventListener('click', (event) => {
+                if (event.target.classList.contains('btnEditar')) {
+                    const linha = event.target.closest('tr');
+                    editIndex = linha.rowIndex - 1;
+                    document.getElementById('nome').value = linha.cells[0].textContent;
+                    document.getElementById('cpf').value = linha.cells[1].textContent;
+                    document.getElementById('salario').value = linha.cells[2].textContent;
+                    document.getElementById('cargo').value = linha.cells[3].textContent;
+                    document.getElementById('cep').value = linha.cells[4].textContent;
+                    document.getElementById('rua').value = linha.cells[5].textContent;
+                    document.getElementById('numero').value = linha.cells[6].textContent;
+                    document.getElementById('bairro').value = linha.cells[7].textContent;
+                    document.getElementById('cidade').value = linha.cells[8].textContent;
+                    document.getElementById('estado').value = linha.cells[9].textContent;
+                } else if (event.target.classList.contains('btnExcluir')) {
+                    const linha = event.target.closest('tr');
+                    tabela.deleteRow(linha.rowIndex - 1);
+                    salvarDados();
+                }
+            });
+
+            carregarDados();
+        });
+    </script>
+</body>
+</html>

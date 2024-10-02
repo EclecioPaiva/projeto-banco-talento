@@ -1,0 +1,98 @@
+.background_body {
+    background-image: url('https://bumerangtravel.com/wp-content/uploads/2024/08/185-aprenda-a-usar-planilhas-como-um-profissional-confira-nossas-dicas.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 100vh;
+}
+
+.centralizado {
+   color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa a altura total da página */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.centralizado h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #bbbbbb; /* Cor principal do texto */
+    position: relative;
+    /* Múltiplas sombras para criar o contorno */
+    text-shadow:
+        -2px -2px 0 #6b6b6b,
+         2px -2px 0 #6b6b6b,
+        -2px  2px 0 #6b6b6b,
+         2px  2px 0 #6b6b6b,
+         0px -2px 0 #6b6b6b,
+         -2px 0px 0 #6b6b6b,
+         2px 0px 0 #6b6b6b,
+         0px 2px 0 #6b6b6b;
+}
+
+.centralizado button {
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #ffffff;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.centralizado button:hover {
+    background-color: #0056b3;
+}
+
+.title {
+    color: #ffffff;
+    text-align: center;
+    font-size: 100px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+}
+
+.form-group {
+    margin: 10px 0;
+    width: 300px;
+}
+
+/* Estilo dos labels */
+.form-group label {
+    font-size: 14px;
+    color: #555;
+    display: inline-block; /* Define que o label só ocupe o tamanho do texto */
+    position: relative;
+    top: 8px; /* Move o label para cima, para sobrepor o input */
+    left: 10px; /* Alinha o label à esquerda dentro do input */
+    background-color: white; /* Fundo branco para cortar a linha do input */
+    padding: 0 5px; /* Adiciona um pouco de espaçamento ao redor do texto */
+    z-index: 1; /* Garante que o label fique acima do input */
+}
+
+/* Estilo dos inputs */
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px; /* Espaçamento entre os campos */
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px; /* Espaçamento entre os campos */
+}
